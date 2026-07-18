@@ -18,11 +18,10 @@ body {
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    cursor: none; /* Custom cursor takes over */
+    cursor: none;
     user-select: none;
 }
 
-/* Accessibility: Show default cursor when reduced motion is preferred */
 @media (prefers-reduced-motion: reduce) {
     body {
         cursor: auto;
@@ -36,13 +35,11 @@ body {
     }
 }
 
-/* Focus States */
 :focus-visible {
     outline: 2px solid var(--accent-primary);
     outline-offset: 2px;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -61,13 +58,11 @@ body {
     background: var(--accent-secondary);
 }
 
-/* Selection */
 ::selection {
     background: var(--accent-dim);
     color: var(--accent-primary);
 }
 
-/* Utility */
 .hidden {
     display: none !important;
 }

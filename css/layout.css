@@ -291,10 +291,10 @@
 .cursor-flashlight {
     position: fixed;
     pointer-events: none;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(183,65,65,0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(201, 74, 74, 0.06) 0%, transparent 70%);
     transform: translate(-50%, -50%);
     z-index: var(--z-cursor);
     opacity: 0;
@@ -305,28 +305,31 @@ body:hover .cursor-flashlight {
     opacity: 1;
 }
 
-/* Custom Cursor Element */
+/* Custom Cursor - Magnifying Glass */
 .custom-cursor {
     position: fixed;
     pointer-events: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--accent-primary);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
     z-index: var(--z-cursor);
-    transition: width 0.2s, height 0.2s,background 0.2s;
-    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease;
+    mix-blend-mode: normal;
 }
 
-.custom-cursor.hovering {
-    width: 40px;
-    height: 40px;
-    background: rgba(183, 65, 65, 0.1);
+.custom-cursor svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.custom-cursor.clicking {
-    width: 15px;
-    height: 15px;
-    background: var(--accent-primary);
+.custom-cursor.hovering svg {
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 8px rgba(201, 74, 74, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.custom-cursor.clicking svg {
+    transform: scale(0.85);
+    filter: drop-shadow(0 0 12px rgba(201, 74, 74, 0.8));
 }

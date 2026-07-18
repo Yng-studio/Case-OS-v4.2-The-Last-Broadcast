@@ -287,49 +287,173 @@
     margin: var(--space-sm) var(--space-md);
 }
 
-/* Cursor Flashlight */
+/* ============================================
+   CURSOR FLASHLIGHT
+   ============================================ */
+
 .cursor-flashlight {
     position: fixed;
+    top: 0;
+    left: 0;
     pointer-events: none;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(201, 74, 74, 0.06) 0%, transparent 70%);
-    transform: translate(-50%, -50%);
-    z-index: var(--z-cursor);
+    background: radial-gradient(circle, rgba(201, 74, 74, 0.08) 0%, transparent 70%);
+    z-index: 9998;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
+    will-change: transform;
 }
 
 body:hover .cursor-flashlight {
     opacity: 1;
 }
 
-/* Custom Cursor - Magnifying Glass */
+/* ============================================
+   CUSTOM CURSOR - MAGNIFYING GLASS
+   ============================================ */
+
 .custom-cursor {
     position: fixed;
+    top: 0;
+    left: 0;
     pointer-events: none;
-    width: 32px;
-    height: 32px;
-    z-index: var(--z-cursor);
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease;
-    mix-blend-mode: normal;
+    z-index: 9999;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    will-change: transform;
 }
 
-.custom-cursor svg {
+/* Show cursor after a brief delay to prevent flash on load */
+body:hover .custom-cursor {
+    opacity: 1;
+}
+
+/* --- Glass Circle --- */
+.cursor-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+}
+
+/* Outer black rim */
+.cursor-rim {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-    transition: filter 0.2s ease, transform 0.2s ease;
+    border-radius: 50%;
+    border: 3px solid #000000;
+    background: transparent;
+    box-sizing: border-box;
 }
 
-.custom-cursor.hovering svg {
-    transform: scale(1.3);
-    filter: drop-shadow(0 0 8px rgba(201, 74, 74, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+/* Inner red ring */
+.cursor-inner {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #c94a4a;
+    background: rgba(201, 74, 74, 0.06);
+    box-sizing: border-box;
 }
 
-.custom-cursor.clicking svg {
+/* Shine highlight */
+.cursor-shine {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    width: 8px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(201, 74, 74, 0.4);
+    transform: rotate(-30deg);
+}
+
+/* --- Handle --- */
+.cursor-handle {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 14px;
+    height: 5px;
+    background: #000000;
+    border-radius: 2.5px;
+    transform: rotate(45deg);
+    transform-origin: left center;
+}
+
+/* ============================================
+   CURSOR STATES
+   ============================================ */
+
+/* Hover state - scale up with red glow */
+.custom-cursor.hovering {
+    filter: drop-shadow(0 0 6px rgba(201, 74, 74, 0.8));
+}
+
+.custom-cursor.hovering .cursor-glass {
+    transform: scale(1.25);
+    transition: transform 0.15s ease;
+}
+
+.custom-cursor.hovering .cursor-handle {
+    transform: rotate(45deg) scale(1.1);
+    transition: transform 0.15s ease;
+}
+
+/* Click state - scale down */
+.custom-cursor.clicking .cursor-glass {
     transform: scale(0.85);
-    filter: drop-shadow(0 0 12px rgba(201, 74, 74, 0.8));
+    transition: transform 0.1s ease;
+}
+
+.custom-cursor.clicking .cursor-handle {
+    transform: rotate(45deg) scale(0.9);
+    transition: transform 0.1s ease;
+}
+
+.custom-cursor.clicking {
+    filter: drop-shadow(0 0 10px rgba(201, 74, 74, 1));
+}
+
+/* ============================================
+   HIDE DEFAULT CURSOR
+   ============================================ */
+
+body {
+    cursor: none !important;
+}
+
+/* Show default cursor on mobile/touch */
+@media (pointer: coarse) {
+    body {
+        cursor: auto !important;
+    }
+    
+    .custom-cursor,
+    .cursor-flashlight {
+        display: none !important;
+    }
+}
+
+/* Show default cursor with reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    body {
+        cursor: auto !important;
+    }
+    
+    .custom-cursor,
+    .cursor-flashlight {
+        display: none !important;
+    }
 }

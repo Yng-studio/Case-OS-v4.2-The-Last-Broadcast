@@ -1410,3 +1410,78 @@
 .evidence-item .evidence-content {
     padding: 0 var(--space-md) var(--space-md) var(--space-md);
 }
+/* Suspect Progress Ring */
+.suspect-progress-ring {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: var(--space-md) 0;
+}
+
+.progress-ring-svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--border-medium);
+    stroke-width: 6;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* Suspect Photo */
+.suspect-photo {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center top;
+    position: relative;
+    overflow: hidden;
+}
+
+.suspect-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, var(--bg-tertiary) 100%);
+}
+
+.suspect-id-badge {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent-primary);
+    background: var(--bg-overlay);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-accent);
+    letter-spacing: 0.1em;
+}
+
+/* Modal Photo */
+.modal-content img {
+    transition: filter var(--transition-base);
+}
+
+.modal-content img:hover {
+    filter: grayscale(0);
+}

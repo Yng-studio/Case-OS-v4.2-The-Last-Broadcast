@@ -6,89 +6,136 @@ export class Cursor {
     constructor() {
         this.cursor = null;
         this.flashlight = document.getElementById('cursor-flashlight');
+        this.isTouch = window.matchMedia('(pointer: coarse)').matches;
+        this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
         this.init();
     }
 
     init() {
-        if (window.matchMedia('(pointer: coarse)').matches || 
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Don't run on touch devices or reduced motion preference
+        if (this.isTouch || this.isReducedMotion) {
             document.body.style.cursor = 'auto';
+            if (this.flashlight) this.flashlight.style.display = 'none';
             return;
         }
 
-        this.createCursor();
+        this.createCursorElement();
         this.bindEvents();
     }
 
-    createCursor() {
+    createCursorElement() {
+        // Remove any existing custom cursor
+        const existing = document.querySelector('.custom-cursor');
+        if (existing) existing.remove();
+
+        // Create cursor container
         this.cursor = document.createElement('div');
         this.cursor.className = 'custom-cursor';
         
-        this.cursor.innerHTML = `
-            <svg viewBox="0 0 32 32" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="20" y="20" width="10" height="3" rx="1.5" transform="rotate(45 25 21.5)" fill="#000000"/>
-                <circle cx="13" cy="13" r="10" stroke="#000000" stroke-width="2.5" fill="none"/>
-                <circle cx="13" cy="13" r="8" stroke="#c94a4a" stroke-width="1.5" fill="rgba(201, 74, 74, 0.08)"/>
-                <path d="M8 8 Q10 6 12 7" stroke="#c94a4a" stroke-width="1" fill="none" opacity="0.6"/>
-            </svg>
-        `;
+        // Create magnifying glass using pure CSS shapes
+        const glass = document.createElement('div');
+        glass.className = 'cursor-glass';
+        
+        const handle = document.createElement('div');
+        handle.className = 'cursor-handle';
+        
+        const rim = document.createElement('div');
+        rim.className = 'cursor-rim';
+        
+        const inner = document.createElement('div');
+        inner.className = 'cursor-inner';
+        
+        const shine = document.createElement('div');
+        shine.className = 'cursor-shine';
+        
+        glass.appendChild(rim);
+        glass.appendChild(inner);
+        glass.appendChild(shine);
+        
+        this.cursor.appendChild(glass);
+        this.cursor.appendChild(handle);
         
         document.body.appendChild(this.cursor);
     }
 
     bindEvents() {
-        document.addEventListener('mousemove', (e) => this.onMouseMove(e));
-        document.addEventListener('mousedown', () => this.onMouseDown());
-        document.addEventListener('mouseup', () => this.onMouseUp());
-        document.addEventListener('mouseover', (e) => this.onMouseOver(e));
-        document.addEventListener('mouseout', (e) => this.onMouseOut(e));
-    }
+        // Mouse move - update position
+        document.addEventListener('mousemove', (e) => {
+            this.updatePosition(e.clientX, e.clientY);
+        });
 
-    onMouseMove(e) {
-        const x = e.clientX;
-        const y = e.clientY;
-        
-        if (this.cursor) {
-            this.cursor.style.left = `${x}px`;
-            this.cursor.style.top = `${y}px`;
-        }
-        
-        if (this.flashlight) {
-            this.flashlight.style.left = `${x}px`;
-            this.flashlight.style.top = `${y}px`;
-        }
-    }
+        // Mouse down - clicking state
+        document.addEventListener('mousedown', () => {
+            if (this.cursor) this.cursor.classList.add('clicking');
+        });
 
-    onMouseDown() {
-        if (this.cursor) {
-            this.cursor.classList.add('clicking');
-        }
-    }
+        // Mouse up - release
+        document.addEventListener('mouseup', () => {
+            if (this.cursor) this.cursor.classList.remove('clicking');
+        });
 
-    onMouseUp() {
-        if (this.cursor) {
-            this.cursor.classList.remove('clicking');
-        }
-    }
+        // Hover detection for interactive elements
+        const interactiveSelectors = [
+            'button', 'a', '.desktop-icon', '.evidence-item', 
+            '.suspect-card', '.timeline-item', '.forensics-item', 
+            '.scene-btn', '.phone-key', '.win-btn', '.start-item', 
+            '.taskbar-window-btn', '.scene-marker', '.notebook-btn',
+            '.modal-btn', '.verdict-submit', '.audio-btn'
+        ].join(', ');
 
-    onMouseOver(e) {
-        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
-        
-        if (hoverable && this.cursor) {
-            this.cursor.classList.add('hovering');
-        }
-    }
-
-    onMouseOut(e) {
-        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
-        
-        if (hoverable && this.cursor) {
-            const relatedHoverable = e.relatedTarget?.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
-            
-            if (!relatedHoverable) {
-                this.cursor.classList.remove('hovering');
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest(interactiveSelectors)) {
+                if (this.cursor) this.cursor.classList.add('hovering');
             }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest(interactiveSelectors)) {
+                const related = e.relatedTarget?.closest(interactiveSelectors);
+                if (!related) {
+                    if (this.cursor) this.cursor.classList.remove('hovering');
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            this.checkVisibility();
+        });
+
+        // Handle mouse leaving window
+        document.addEventListener('mouseleave', () => {
+            if (this.cursor) this.cursor.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            if (this.cursor) this.cursor.style.opacity = '1';
+        });
+    }
+
+    updatePosition(x, y) {
+        if (!this.cursor) return;
+        
+        // Use transform for smooth performance (GPU accelerated)
+        this.cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+        
+        // Update flashlight position
+        if (this.flashlight) {
+            this.flashlight.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+        }
+    }
+
+    checkVisibility() {
+        if (!this.cursor) return;
+        // Ensure cursor is visible when needed
+        this.cursor.style.opacity = '1';
+    }
+
+    destroy() {
+        if (this.cursor) {
+            this.cursor.remove();
+            this.cursor = null;
         }
     }
 }

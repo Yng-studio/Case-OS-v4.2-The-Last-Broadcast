@@ -94,8 +94,11 @@ export class SuspectProfiles {
             card.className = 'suspect-card';
             card.tabIndex = 0;
             
-            const riskColor = suspect.risk >= 80 ? 'var(--danger)' : 
-                             suspect.risk >= 60 ? 'var(--accent-primary)' : 'var(--success)';
+            const riskColor = suspect.risk >= 80 ? '#c94a4a' : 
+                             suspect.risk >= 60 ? '#e8a838' : '#4a9c6a';
+            
+            const circumference = 2 * Math.PI * 36;
+            const offset = circumference - (suspect.risk / 100) * circumference;
             
             card.innerHTML = `
                 <div class="suspect-photo" style="background-image: url('${suspect.image}');">
@@ -113,6 +116,16 @@ export class SuspectProfiles {
                 <div class="suspect-body">
                     <div class="suspect-name">${this.escapeHtml(suspect.name)}</div>
                     <div class="suspect-role">${this.escapeHtml(suspect.role)}</div>
+                    <div class="suspect-progress-ring">
+                        <svg class="progress-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+                            <circle class="progress-ring-bg" cx="40" cy="40" r="36"/>
+                            <circle class="progress-ring-fill" cx="40" cy="40" r="36" 
+                                stroke="${riskColor}"
+                                stroke-dasharray="${circumference}"
+                                stroke-dashoffset="${offset}"/>
+                        </svg>
+                        <div class="progress-ring-text" style="color: ${riskColor};">${suspect.risk}%</div>
+                    </div>
                     <div class="suspect-details">
                         <div class="suspect-detail">
                             <div class="suspect-detail-label">Relationship</div>
@@ -142,11 +155,14 @@ export class SuspectProfiles {
     }
 
     openDetail(suspect) {
-        const riskColor = suspect.risk >= 80 ? 'var(--danger)' : 
-                         suspect.risk >= 60 ? 'var(--accent-primary)' : 'var(--success)';
+        const riskColor = suspect.risk >= 80 ? '#c94a4a' : 
+                         suspect.risk >= 60 ? '#e8a838' : '#4a9c6a';
+        
+        const circumference = 2 * Math.PI * 36;
+        const offset = circumference - (suspect.risk / 100) * circumference;
         
         const content = `
-            <div style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-xl);">
+            <div style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-xl); flex-wrap: wrap;">
                 <div style="width: 120px; height: 150px; border-radius: var(--space-sm); overflow: hidden; border: 1px solid var(--border-medium); flex-shrink: 0;">
                     <img src="${suspect.image}" alt="${this.escapeHtml(suspect.name)}" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.3);">
                 </div>
@@ -158,13 +174,16 @@ export class SuspectProfiles {
             </div>
             <div style="margin: var(--space-lg) 0;">
                 <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
-                    <svg class="progress-ring" width="80" height="80">
-                        <circle class="progress-ring-circle" cx="40" cy="40" r="36"/>
-                        <circle class="progress-ring-progress" cx="40" cy="40" r="36" 
-                            stroke-dasharray="226.2" 
-                            stroke-dashoffset="${226.2 - (226.2 * suspect.risk / 100)}"
-                            style="stroke: ${riskColor}"/>
-                    </svg>
+                    <div class="suspect-progress-ring" style="width: 80px; height: 80px;">
+                        <svg class="progress-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+                            <circle class="progress-ring-bg" cx="40" cy="40" r="36"/>
+                            <circle class="progress-ring-fill" cx="40" cy="40" r="36" 
+                                stroke="${riskColor}"
+                                stroke-dasharray="${circumference}"
+                                stroke-dashoffset="${offset}"/>
+                        </svg>
+                        <div class="progress-ring-text" style="color: ${riskColor};">${suspect.risk}%</div>
+                    </div>
                     <div>
                         <div style="font-family: var(--font-mono); font-size: 2rem; color: ${riskColor}; font-weight: 700;">
                             ${suspect.risk}%

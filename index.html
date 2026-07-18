@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Case File 4471-K - The Last Broadcast. Classified Investigation Interface.">
+    <title>Case OS v4.2 | File 4471-K</title>
+    <link rel="preconnect" href="assets/images">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-theme="dark">
+
+    <!-- Boot Sequence -->
+    <div id="boot-screen" class="boot-screen">
+        <div class="boot-content">
+            <div class="boot-logo">DETECTIVE_OS</div>
+            <div class="boot-version">v4.2.1-CLASSIFIED</div>
+            <div class="boot-status">
+                <span class="boot-cursor">_</span>
+                <span class="boot-text"></span>
+            </div>
+            <div class="boot-progress">
+                <div class="boot-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Environment -->
+    <div id="desktop" class="desktop hidden">
+        <!-- Wallpaper / Grid -->
+        <div class="desktop-grid"></div>
+        
+        <!-- Desktop Icons -->
+        <div class="desktop-icons" id="desktop-icons">
+            <div class="desktop-icon" data-window="evidence-board" tabindex="0">
+                <div class="icon-visual">📌</div>
+                <div class="icon-label">Evidence.board</div>
+            </div>
+            <div class="desktop-icon" data-window="suspect-profiles" tabindex="0">
+                <div class="icon-visual">👤</div>
+                <div class="icon-label">Suspects.db</div>
+            </div>
+            <div class="desktop-icon" data-window="crime-scene" tabindex="0">
+                <div class="icon-visual">🔍</div>
+                <div class="icon-label">Scene.3D</div>
+            </div>
+            <div class="desktop-icon" data-window="timeline" tabindex="0">
+                <div class="icon-visual">📊</div>
+                <div class="icon-label">Timeline.exe</div>
+            </div>
+            <div class="desktop-icon" data-window="forensics" tabindex="0">
+                <div class="icon-visual">💾</div>
+                <div class="icon-label">Forensics</div>
+            </div>
+            <div class="desktop-icon" data-window="notebook" tabindex="0">
+                <div class="icon-visual">📓</div>
+                <div class="icon-label">Notebook.txt</div>
+            </div>
+            <div class="desktop-icon" data-window="verdict" tabindex="0">
+                <div class="icon-visual">⚖️</div>
+                <div class="icon-label">Verdict.exe</div>
+            </div>
+        </div>
+
+        <!-- Window Container -->
+        <div id="window-layer" class="window-layer"></div>
+
+        <!-- Taskbar -->
+        <div class="taskbar" id="taskbar">
+            <div class="taskbar-start" id="start-btn" tabindex="0">
+                <span class="taskbar-logo">◈</span>
+                <span>CASE_OS</span>
+            </div>
+            <div class="taskbar-windows" id="taskbar-windows"></div>
+            <div class="taskbar-tray">
+                <div class="tray-item" id="save-indicator" title="Save Status">
+                    <span class="save-status">●</span>
+                </div>
+                <div class="tray-item" id="clock">00:00</div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu hidden" id="start-menu">
+            <div class="start-menu-header">
+                <div class="start-user">DETECTIVE</div>
+                <div class="start-rank">Clearance: LEVEL 4</div>
+            </div>
+            <div class="start-menu-items">
+                <div class="start-item" data-window="evidence-board">Evidence Board</div>
+                <div class="start-item" data-window="suspect-profiles">Suspect Database</div>
+                <div class="start-item" data-window="crime-scene">Crime Scene</div>
+                <div class="start-item" data-window="timeline">Timeline</div>
+                <div class="start-item" data-window="forensics">Digital Forensics</div>
+                <div class="start-item" data-window="notebook">Field Notebook</div>
+                <div class="start-item" data-window="verdict">Submit Verdict</div>
+                <div class="start-divider"></div>
+                <div class="start-item" id="save-case">Save Case State</div>
+                <div class="start-item" id="load-case">Load Case State</div>
+                <div class="start-item" id="reset-case">Reset Investigation</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor Layer -->
+    <div id="cursor-flashlight" class="cursor-flashlight"></div>
+
+    <!-- Templates -->
+    <template id="window-template">
+        <div class="os-window" tabindex="0">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon"></span>
+                    <span class="window-text"></span>
+                </div>
+                <div class="window-controls">
+                    <button class="win-btn minimize" title="Minimize">─</button>
+                    <button class="win-btn maximize" title="Maximize">□</button>
+                    <button class="win-btn close" title="Close">×</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="window-content"></div>
+            </div>
+            <div class="window-resize-handle"></div>
+        </div>
+    </template>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+:root {
+    /* Core Palette - Noir Detective */
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #111113;
+    --bg-tertiary: #1a1a1d;
+    --bg-elevated: #222226;
+    --bg-overlay: rgba(10, 10, 11, 0.92);
+    
+    /* Accent - Dark Red Alert */
+    --accent-primary: #b74141;
+    --accent-secondary: #8d2a2a;
+    --accent-glow: rgba(183, 65, 65, 0.3);
+    --accent-dim: rgba(183, 65, 65, 0.1);
+    
+    /* Functional Colors */
+    --danger: #c94a4a;
+    --danger-glow: rgba(201, 74, 74, 0.3);
+    --success: #4a9c6a;
+    --success-glow: rgba(74, 156, 106, 0.3);
+    --info: #4a8ac9;
+    --info-glow: rgba(74, 138, 201, 0.3);
+    
+    /* Text */
+    --text-primary: #e8e6e3;
+    --text-secondary: #9a9896;
+    --text-muted: #5a5856;
+    --text-inverse: #0a0a0b;
+    
+    /* Borders */
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-medium: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(183, 65, 65, 0.4);
+    
+    /* Typography */
+    --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    --font-sans: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Playfair Display', 'Georgia', serif;
+    
+    /* Spacing Scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-cinematic: 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+    
+    /* Z-Index Scale */
+    --z-base: 1;
+    --z-window: 100;
+    --z-taskbar: 1000;
+    --z-start-menu: 1001;
+    --z-modal: 2000;
+    --z-toast: 3000;
+    --z-cursor: 9999;
+    
+    /* Window */
+    --window-radius: 8px;
+    --window-header-height: 36px;
+    --taskbar-height: 42px;
+}

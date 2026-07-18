@@ -1,0 +1,147 @@
+/* Tablet */
+@media (max-width: 1024px) {
+    :root {
+        --space-lg: 1.25rem;
+        --space-xl: 1.5rem;
+    }
+    
+    .desktop-icons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        top: auto;
+        bottom: calc(var(--taskbar-height) + var(--space-md));
+        left: var(--space-md);
+        right: var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .desktop-icon {
+        width: 70px;
+    }
+    
+    .evidence-board {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+    
+    .suspect-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    
+    .forensics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .forensics-sidebar {
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .boot-logo {
+        font-size: 1.75rem;
+    }
+    
+    .os-window {
+        border-radius: 0;
+        min-width: 100vw;
+        min-height: 100vh;
+    }
+    
+    .os-window:not(.maximized) {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: calc(100vh - var(--taskbar-height)) !important;
+    }
+    
+    .window-controls .maximize {
+        display: none;
+    }
+    
+    .window-resize-handle {
+        display: none;
+    }
+    
+    .desktop-icons {
+        display: none;
+    }
+    
+    .start-menu {
+        left: 0;
+        right: 0;
+        bottom: var(--taskbar-height);
+        width: auto;
+        border-radius: 0;
+    }
+    
+    .evidence-board {
+        grid-template-columns: 1fr;
+    }
+    
+    .suspect-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-container {
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    .scene-stage {
+        aspect-ratio: 4/3;
+    }
+    
+    .verdict-form {
+        padding: 0;
+    }
+    
+    .modal-content {
+        padding: var(--space-lg);
+    }
+    
+    .custom-cursor,
+    .cursor-flashlight {
+        display: none;
+    }
+    
+    body {
+        cursor: auto;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .boot-screen {
+        display: none;
+    }
+    
+    #desktop {
+        opacity: 1;
+    }
+    
+    .os-window {
+        transition: none;
+    }
+    
+    .stagger-children > * {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+    :root {
+        --border-medium: rgba(255, 255, 255, 0.3);
+        --text-secondary: #ccc;
+        --text-muted: #999;
+    }
+}
+
+/* Dark mode is default, but respect system preference */
+@media (prefers-color-scheme: light) {
+    /* Keep dark theme regardless - this is a noir OS */
+}

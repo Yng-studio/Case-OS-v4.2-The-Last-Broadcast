@@ -13,10 +13,7 @@ export class Cursor {
     }
 
     init() {
-        // Don't run on touch devices or reduced motion preference
         if (this.isTouch || this.isReducedMotion) {
-            document.body.style.cursor = 'auto';
-            if (this.flashlight) this.flashlight.style.display = 'none';
             return;
         }
 
@@ -25,15 +22,12 @@ export class Cursor {
     }
 
     createCursorElement() {
-        // Remove any existing custom cursor
         const existing = document.querySelector('.custom-cursor');
         if (existing) existing.remove();
 
-        // Create cursor container
         this.cursor = document.createElement('div');
         this.cursor.className = 'custom-cursor';
         
-        // Create magnifying glass using pure CSS shapes
         const glass = document.createElement('div');
         glass.className = 'cursor-glass';
         
@@ -60,28 +54,25 @@ export class Cursor {
     }
 
     bindEvents() {
-        // Mouse move - update position
         document.addEventListener('mousemove', (e) => {
             this.updatePosition(e.clientX, e.clientY);
         });
 
-        // Mouse down - clicking state
         document.addEventListener('mousedown', () => {
             if (this.cursor) this.cursor.classList.add('clicking');
         });
 
-        // Mouse up - release
         document.addEventListener('mouseup', () => {
             if (this.cursor) this.cursor.classList.remove('clicking');
         });
 
-        // Hover detection for interactive elements
         const interactiveSelectors = [
             'button', 'a', '.desktop-icon', '.evidence-item', 
             '.suspect-card', '.timeline-item', '.forensics-item', 
             '.scene-btn', '.phone-key', '.win-btn', '.start-item', 
             '.taskbar-window-btn', '.scene-marker', '.notebook-btn',
-            '.modal-btn', '.verdict-submit', '.audio-btn'
+            '.modal-btn', '.verdict-submit', '.audio-btn', '.taskbar-start',
+            '.forensics-item', '.evidence-item', '.phone-key'
         ].join(', ');
 
         document.addEventListener('mouseover', (e) => {
@@ -99,12 +90,6 @@ export class Cursor {
             }
         });
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            this.checkVisibility();
-        });
-
-        // Handle mouse leaving window
         document.addEventListener('mouseleave', () => {
             if (this.cursor) this.cursor.style.opacity = '0';
         });
@@ -116,20 +101,11 @@ export class Cursor {
 
     updatePosition(x, y) {
         if (!this.cursor) return;
+        this.cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
         
-        // Use transform for smooth performance (GPU accelerated)
-        this.cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-        
-        // Update flashlight position
         if (this.flashlight) {
-            this.flashlight.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+            this.flashlight.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
         }
-    }
-
-    checkVisibility() {
-        if (!this.cursor) return;
-        // Ensure cursor is visible when needed
-        this.cursor.style.opacity = '1';
     }
 
     destroy() {

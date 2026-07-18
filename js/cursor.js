@@ -1,21 +1,19 @@
 /**
- * Custom Cursor & Flashlight Effect
- * Replaces default cursor with a noir detective aesthetic
+ * Custom Cursor - Red and Black Magnifying Glass
  */
 
 export class Cursor {
     constructor() {
         this.cursor = null;
         this.flashlight = document.getElementById('cursor-flashlight');
-        this.isHovering = false;
         
         this.init();
     }
 
     init() {
-        // Skip custom cursor on touch devices or reduced motion
         if (window.matchMedia('(pointer: coarse)').matches || 
             window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.body.style.cursor = 'auto';
             return;
         }
 
@@ -26,6 +24,16 @@ export class Cursor {
     createCursor() {
         this.cursor = document.createElement('div');
         this.cursor.className = 'custom-cursor';
+        
+        this.cursor.innerHTML = `
+            <svg viewBox="0 0 32 32" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="20" width="10" height="3" rx="1.5" transform="rotate(45 25 21.5)" fill="#000000"/>
+                <circle cx="13" cy="13" r="10" stroke="#000000" stroke-width="2.5" fill="none"/>
+                <circle cx="13" cy="13" r="8" stroke="#c94a4a" stroke-width="1.5" fill="rgba(201, 74, 74, 0.08)"/>
+                <path d="M8 8 Q10 6 12 7" stroke="#c94a4a" stroke-width="1" fill="none" opacity="0.6"/>
+            </svg>
+        `;
+        
         document.body.appendChild(this.cursor);
     }
 
@@ -33,8 +41,6 @@ export class Cursor {
         document.addEventListener('mousemove', (e) => this.onMouseMove(e));
         document.addEventListener('mousedown', () => this.onMouseDown());
         document.addEventListener('mouseup', () => this.onMouseUp());
-        
-        // Detect hoverable elements
         document.addEventListener('mouseover', (e) => this.onMouseOver(e));
         document.addEventListener('mouseout', (e) => this.onMouseOut(e));
     }
@@ -67,28 +73,21 @@ export class Cursor {
     }
 
     onMouseOver(e) {
-        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn');
+        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
         
-        if (hoverable && !this.isHovering) {
-            this.isHovering = true;
-            if (this.cursor) {
-                this.cursor.classList.add('hovering');
-            }
+        if (hoverable && this.cursor) {
+            this.cursor.classList.add('hovering');
         }
     }
 
     onMouseOut(e) {
-        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn');
+        const hoverable = e.target.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
         
-        if (hoverable) {
-            // Check if we're entering another hoverable
-            const relatedHoverable = e.relatedTarget?.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn');
+        if (hoverable && this.cursor) {
+            const relatedHoverable = e.relatedTarget?.closest('button, a, .desktop-icon, .evidence-item, .suspect-card, .timeline-item, .forensics-item, .scene-btn, .phone-key, .win-btn, .start-item, .taskbar-window-btn, .scene-marker');
             
             if (!relatedHoverable) {
-                this.isHovering = false;
-                if (this.cursor) {
-                    this.cursor.classList.remove('hovering');
-                }
+                this.cursor.classList.remove('hovering');
             }
         }
     }
